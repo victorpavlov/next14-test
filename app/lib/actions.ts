@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { InvoiceForm } from './definitions';
 
 const InvoiceSchema = z.object({
   id: z.string(),
@@ -36,7 +37,7 @@ export async function createInvoice(formData: FormData) {
   redirect('/dashboard/invoices');
 }
 
-export async function updateInvoice(formData: FormData) {
+export async function updateInvoice(formData: FormData): Promise<InvoiceForm> {
   const { id, customerId, amount, status } = UpdateInvoice.parse({
     id: formData.get('id'),
     customerId: formData.get('customerId'),
